@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya&display=swap');
+
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	height: 100%;
+}
+
+body {
+	background: #000;
+	min-height: 100%;
+	font-family: 'Roboto', sans-serif;
+}
+
+.wrap {
+  position: relative;
+  height: 100%;
+  min-height: 500px;
+  padding-bottom: 20px;
+
+    h1 {
+        text-align: center;
+        color: #fff;
+        letter-spacing: .2rem;
+        font-family: 'Alegreya', serif;
+    }
+}
+
+.game {
+	transform-style: preserve-3d;
+	perspective: 500px;
+	min-height: 100%;
+    min-height: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1rem;
+
+    @media screen and (max-width: 800px) {
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: .5rem;
+    }
+}
+
+@mixin width($max){
+	@media (max-width: $max){
+		@content;
+	}
+}
+
+@keyframes matchAnim {
+	0% {
+		background: #bcffcc;
+	}
+	100% {
+		background: white;
+	}
+}
+
+.card {
+    float: left;
+    width: 100%;
+    height: 10rem;
+    text-align: center;
+    display: block;
+    perspective: 500px;
+    position: relative;
+    cursor: pointer;
+    z-index: 50; 
+    -webkit-tap-highlight-color: rgba(0,0,0,0);  
+    @include width(800px){
+        width: 100%;
+        height: 6rem;
+    }
+    
+	.inside {
+		width: 100%;
+		height: 100%;
+        display: flex;
+		transform-style: preserve-3d;
+		transition: .4s ease-in-out;
+		background: white;
+        border-radius: 1rem;transition: .3s;
+
+        &:hover {
+            background-color: #333;
+            color: #ddd;
+            border: 2px solid #fff
+        }
+
+		&.picked, &.matched {
+			transform: rotateY(180deg);
+
+            &:hover {
+                background-color: #fff;
+                color: #000;
+                border: none
+            }
+		}
+		&.matched {
+			animation: 1s matchAnim ease-in-out;
+			animation-delay: .4s;
+		}
+	}
+
+  .front, .back {
+  	border: 1px solid black;
+  	backface-visibility: hidden;
+  	position: absolute;
+  	top: 0;
+  	left: 0;
+  	width: 100%;
+  	height: 100%;
+  	padding: .3rem;
+
+  	img {
+  		max-width: 100%;
+  		display: block;
+  		margin: 0 auto;
+  		max-height: 100%;
+        position: relative;
+  	}
+  }
+  .front {
+  	transform: rotateY(-180deg);
+  	@include width(800px){
+  		padding: 5px;
+  	}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .back{
+		display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & > i{
+            font-size: 3rem;
+        }
+  	}
+  }
+
+
+.modal-overlay {
+	display: none;
+	background: rgba(0,0,0,.8);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+// .modal {
+// 	display: none;
+// 	position: relative;
+// 	width: 100%;
+// 	height: 100%;
+// 	max-height: 90%;
+// 	max-width: 90%;
+// 	min-height: 380px;
+// 	margin: 0 auto;
+// 	background: white;
+// 	top: 50%;
+// 	transform: translateY(-50%);
+// 	padding: 30px 10px;
+// 	.winner {
+// 		font-size: 80px;
+// 		text-align: center;
+// 		color: #4d4d4d;
+// 		text-shadow: 0px 3px 0 black;
+// 		@include width(480px){
+// 			font-size: 60px;
+// 		}
+// 	}
+// 	.restart {
+// 		margin: 30px auto;
+// 		padding: 20px 30px;
+// 		display: block;
+// 		font-size: 30px;
+// 		border: none;
+// 		background: #4d4d4d;
+// 		background: linear-gradient(#4d4d4d, #222);
+// 		border: 1px solid #222;
+// 		border-radius: 5px;
+// 		color: white;
+// 		text-shadow: 0px 1px 0 black;
+// 		cursor: pointer;
+// 		&:hover {
+// 			background: linear-gradient(#222, black);
+// 		}
+// 	}
+// 	.message {
+// 		text-align: center;
+// 		a {
+// 			text-decoration: none;
+// 			color: #28afe6;
+// 			font-weight: bold;
+// 			&:hover {
+// 				$c: lighten(#28afe6, 10%);
+// 				color: $c;
+// 				border-bottom: 1px dotted $c;
+// 			}
+// 		}
+// 	}
+// 	.share-text {
+// 		text-align: center;
+// 		margin: 10px auto;
+// 	}
+// 	.social {
+// 		margin: 20px auto;
+// 		text-align: center;
+// 		li {
+// 			display: inline-block;
+// 			height: 50px;
+// 			width: 50px;
+// 			margin-right: 10px;
+// 			&:last-child {
+// 				margin-right: 0;
+// 			}
+// 			a {
+// 				display: block;
+// 				line-height: 50px;
+// 				font-size: 20px;
+// 				color: white;
+// 				text-decoration: none;
+// 				border-radius: 5px;
+// 				&.facebook {
+// 					background: #3b5998;
+// 					&:hover {
+// 						background: lighten(#3b5998, 10%);
+// 					}
+// 				}
+// 				&.google {
+// 					background: #D34836;
+// 					&:hover {
+// 						background: lighten(#D34836, 10%);
+// 					}
+// 				}
+// 				&.twitter {
+// 					background: #4099FF;
+// 					&:hover {
+// 						background: lighten(#4099FF, 10%);
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// }
